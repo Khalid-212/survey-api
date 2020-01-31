@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const MONGOURI = 'mongodb+srv://admin:admin@devcluster-ceb5z.mongodb.net/sobroca?retryWrites=true&w=majority';
+const MONGOURI = 'mongodb+srv://admin:admin@devcluster-ceb5z.mongodb.net/surveyapp?retryWrites=true&w=majority';
 
 const InitiateMongoServer = () => {
   mongoose.connect(MONGOURI, {
