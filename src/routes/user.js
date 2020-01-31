@@ -15,13 +15,21 @@ router.post('/signup', check('email', 'Please enter a valid email').isEmail(), a
       });
     }
 
-    const { username, email, password } = req.body;
+    const { username, email, password, name } = req.body;
+    const role = req.body.role.toUpperCase();
     try {
       user = new User({
         username,
         email,
-        password
+        password,
+        role,
+        name
       });
+
+      if (role !== 'COORDINATOR' && role !== 'RESPONDENT')
+        return res.status(400).json({
+          message: 'Invalid user role'
+        });
 
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(password, salt);
@@ -30,7 +38,8 @@ router.post('/signup', check('email', 'Please enter a valid email').isEmail(), a
 
       const token = await signin(user)
       res.status(200).json({
-        token
+        token,
+        user
       });
     } catch (err) {
       res.status(500).send(err.message);
@@ -54,23 +63,24 @@ router.post(
 
     const { email, password } = req.body;
     try {
-      let user = await User.findOne({
+      const user = await User.findOne({
         email
       });
       if (!user)
         return res.status(400).json({
-          message: 'User Not Exist'
+          message: 'User not exist'
         });
 
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch)
         return res.status(400).json({
-          message: 'Incorrect Password !'
+          message: 'Incorrect password'
         });
 
       const token = await signin(user)
       res.status(200).json({
-        token
+        token,
+        user
       });
     } catch (e) {
       console.log(e)
@@ -85,7 +95,7 @@ router.get('/me', auth, async (req, res) => {
     const user = await User.findById(req.user.id);
     res.json(user);
   } catch (e) {
-    res.send({ message: 'Error in Fetching user' });
+    res.send({ message: 'Error in fetching user' });
   }
 });
 

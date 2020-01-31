@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const user = require('./routes/user'); //new addition
+const survey = require('./routes/survey'); //new addition
+const entry = require('./routes/entry'); //new addition
 const InitiateMongoServer = require('./config/db');
 
 
@@ -16,7 +18,9 @@ app.get('/', (req, res) => {
   res.json({ message: 'API Working' });
 });
 
-app.use('/user', user);
+app.use('/users', user);
+app.use('/surveys', survey);
+app.use('/entries', entry);
 
 app.listen(PORT, (req, res) => {
   console.log(`Server Started at PORT ${PORT}`);

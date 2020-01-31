@@ -9,7 +9,7 @@ functions.signin = (user) => {
       }
     }
 
-    jwt.sign(payload, 'randomString', { expiresIn: 10000 },
+    jwt.sign(payload, 'randomString', { expiresIn: 9999999 },
       (err, token) => {
         if (err) reject(err)
         else resolve(token)
