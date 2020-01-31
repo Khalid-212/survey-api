@@ -7,7 +7,7 @@ const InitiateMongoServer = require('./config/db');
 const app = express();
 
 // PORT
-const PORT = 6384;
+const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(bodyParser.json());
