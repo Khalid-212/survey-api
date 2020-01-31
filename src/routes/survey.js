@@ -6,7 +6,7 @@ const Survey = require('../models/survey');
 const Question = require('../models/question');
 const Entry = require('../models/entry');
 
-router.get('/', auth, async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const surveys = await Survey.find({}).populate('createdBy');
 
@@ -18,7 +18,7 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-router.get('/:id', auth, async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const survey = await Survey.findById(req.params.id).populate(['questions', 'createdBy']);
 
