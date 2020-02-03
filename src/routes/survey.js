@@ -15,16 +15,16 @@ const ResultView = require('../views/result')
 router.get('/', setRequestUser, async (req, res) => {
 	const populate = ['createdBy']
 	try {
-    const user = req.user ? await User.findById(req.user.id) : {}
+		const user = req.user ? await User.findById(req.user.id) : {}
 		let surveys = await Survey.find({}).populate(populate)
-    surveys = surveys.filter(i => {
-      return user.role === 'COORDINATOR' || i.status === 'ACTIVE' || i.status === 'CLOSED'
-    })
+		surveys = surveys.filter(i => {
+			return user.role === 'COORDINATOR' || i.status === 'ACTIVE' || i.status === 'CLOSED'
+		})
 		res.status(200).json(
 			surveys.map(i => SurveyView(i, populate))
 		)
 	} catch (err) {
-    // console.log(err)
+		// console.log(err)
 		res.status(500).send(err.message)
 	}
 })
@@ -58,22 +58,22 @@ router.get('/:id/entries', authAdmin, async (req, res) => {
 router.get('/:id/result', auth, async (req, res) => {
 	const populate = ['questions', 'createdBy']
 	try {
-    const survey = await Survey.findById(req.params.id).populate(populate)
+		const survey = await Survey.findById(req.params.id).populate(populate)
 		const entries = await Entry.find({ survey: req.params.id })
 
-    let result = survey.questions.map(i => QuestionView(i))
-    await result.forEach(async (item) => {
-      item.result = []
-      await entries.forEach((i) => {
-        const questionAns = i.answers.find(x => {
-          const id1 = x.question.toString()
-          const id2 = item.id.toString()
-          return id1 == id2
-        }).answer
-        const index = item.options.indexOf(questionAns)
-        item.result[index] = item.result[index] ? item.result[index] + 1 : 1
-      })
-    })
+		let result = survey.questions.map(i => QuestionView(i))
+		await result.forEach(async (item) => {
+			item.result = []
+			await entries.forEach((i) => {
+				const questionAns = i.answers.find(x => {
+					const id1 = x.question.toString()
+					const id2 = item.id.toString()
+					return id1 == id2
+				}).answer
+				const index = item.options.indexOf(questionAns)
+				item.result[index] = item.result[index] ? item.result[index] + 1 : 1
+			})
+		})
 		res.status(200).json(
 			ResultView(survey, populate, result)
 		)
@@ -105,7 +105,7 @@ router.post('/', authAdmin, async (req, res) => {
 	}
 })
 
-router.put('/status/:id', auth, async (req, res) => {
+router.put('/status/:id', authAdmin, async (req, res) => {
 	const populate = ['questions', 'createdBy']
 	try {
 		const status = req.body.status.toUpperCase()

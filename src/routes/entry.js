@@ -1,17 +1,26 @@
 const express = require('express')
 const router = express.Router()
-const { auth } = require('../middleware/auth')
+const { authAdmin, setRequestUser } = require('../middleware/auth')
 
 const Entry = require('../models/entry')
+const Survey = require('../models/survey')
+
 const EntryView = require('../views/entry')
 
-router.post('/', async (req, res) => {
+router.post('/', setRequestUser, async (req, res) => {
 	const { answers, survey } = req.body
 	try {
+		const surveyInstance = await Survey.findById(survey)
+
+		if (surveyInstance.status !== 'ACTIVE')
+			return res.status(400).json({
+				message: 'This survey isn\'t active'
+			})
 
 		let entry = new Entry({
 			answers,
-			survey
+			survey,
+			user: req.user ? req.user.id : null
 		})
 
 		await entry.save()
@@ -24,12 +33,12 @@ router.post('/', async (req, res) => {
 	}
 })
 
-router.get('/', auth, async (req, res) => {
+router.get('/', authAdmin, async (req, res) => {
+	const populate = ['user']
 	try {
-		const entries = await Entry.find({})
-
+		const entries = await Entry.find({}).populate(populate)
 		res.status(200).json(
-			entries.map(i => EntryView(i))
+			entries.map(i => EntryView(i, populate))
 		)
 	} catch (err) {
 		res.status(500).send(err)
