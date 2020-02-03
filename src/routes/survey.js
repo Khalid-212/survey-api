@@ -13,7 +13,7 @@ const EntryView = require('../views/entry')
 router.get('/', setRequestUser, async (req, res) => {
 	const populate = ['createdBy']
 	try {
-    const user = await User.findById(req.user.id)
+    const user = req.user ? await User.findById(req.user.id) : {}
 		let surveys = await Survey.find({}).populate(populate)
     surveys = surveys.filter(i => {
       return user.role === 'COORDINATOR' || i.status === 'ACTIVE'

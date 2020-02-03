@@ -35,8 +35,7 @@ module.exports = {
         req.user = decoded.user
       }
   		next()
-  	} catch (e) {
-      console.log(e)
+  	} catch {
   		next()
   	}
   }
