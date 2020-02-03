@@ -43,6 +43,7 @@ router.get('/:id/entries', auth, async (req, res) => {
       entries.map(i => EntryView(i))
     )
   } catch (err) {
+    console.log(err)
     res.status(500).send(err)
   }
 })

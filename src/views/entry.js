@@ -8,7 +8,7 @@ module.exports = function EntryView(entry, arr = []) {
 
   return ({
     id: entry._id,
-    answers: entry.map(i => ({
+    answers: entry.answers.map(i => ({
       question: populate.question ? QuestionView(i.question) : i.question,
       answer: i.answer
     })),
