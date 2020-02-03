@@ -1,10 +1,9 @@
 const jwt = require('jsonwebtoken')
 
 module.exports = function(req, res, next) {
-	const token = req.header('token')
-	if (!token) return res.status(401).json({ message: 'Auth error' })
-
 	try {
+    const token = req.header('Authorization').split(' ')[1]
+    if (!token) return res.status(401).json({ message: 'Auth error' })
 		const decoded = jwt.verify(token, 'randomString')
 		req.user = decoded.user
 		next()
