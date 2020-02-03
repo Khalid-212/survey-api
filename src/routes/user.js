@@ -6,6 +6,7 @@ const auth = require('../middleware/auth');
 const { signin } = require('../utils/functions');
 
 const User = require('../models/user');
+const UserView = require('../views/user');
 
 router.post('/signup', check('email', 'Please enter a valid email').isEmail(), async (req, res) => {
     const errors = validationResult(req);
@@ -39,7 +40,7 @@ router.post('/signup', check('email', 'Please enter a valid email').isEmail(), a
       const token = await signin(user)
       res.status(200).json({
         token,
-        user
+        user: UserView(user)
       });
     } catch (err) {
       res.status(500).send(err.message);
@@ -80,7 +81,7 @@ router.post(
       const token = await signin(user)
       res.status(200).json({
         token,
-        user
+        user: UserView(user)
       });
     } catch (e) {
       console.log(e)
@@ -93,7 +94,7 @@ router.get('/me', auth, async (req, res) => {
   try {
     // request.user is getting fetched from Middleware after token authentication
     const user = await User.findById(req.user.id);
-    res.json(user);
+    res.json(UserView(user));
   } catch (e) {
     res.send({ message: 'Error in fetching user' });
   }
