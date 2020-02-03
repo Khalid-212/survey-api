@@ -86,6 +86,19 @@ router.get('/:id/result', auth, async (req, res) => {
 router.post('/', authAdmin, async (req, res) => {
 	const { title, questions, description, status } = req.body
 	try {
+    if (!title)
+      return res.status(400).json({
+        message: 'Please enter a title for your survey'
+      })
+    console.log(questions, !questions)
+    if (!questions || questions.length === 0 || questions.length > 10)
+      return res.status(400).json({
+        message: 'A survey must have 1 to 10 questions'
+      })
+    if (questions.find(item => !item || item.options.length === 0 || item.options.length > 5))
+      return res.status(400).json({
+        message: 'Every survey question must have 1 to 5 options'
+      })
 		let questionsRef = await Question.insertMany(questions)
 
 		let survey = new Survey({
