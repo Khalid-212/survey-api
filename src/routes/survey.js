@@ -84,7 +84,7 @@ router.get('/:id/result', auth, async (req, res) => {
 })
 
 router.post('/', authAdmin, async (req, res) => {
-	const { title, questions, description } = req.body
+	const { title, questions, description, status } = req.body
 	try {
 		let questionsRef = await Question.insertMany(questions)
 
@@ -92,7 +92,8 @@ router.post('/', authAdmin, async (req, res) => {
 			title,
 			description,
 			questions: questionsRef.map(i => i.id),
-			createdBy: req.user.id
+			createdBy: req.user.id,
+      status
 		})
 
 		await survey.save()
