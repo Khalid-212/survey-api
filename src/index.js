@@ -10,20 +10,20 @@ const app = express()
 app.use(cors())
 
 // PORT
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5000 // eslint-disable-line
 
 // Middleware
 app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
-  res.json({ message: 'API Working' })
+	res.json({ message: 'API Working' })
 })
 
 app.use('/users', user)
 app.use('/surveys', survey)
 app.use('/entries', entry)
 
-app.listen(PORT, (req, res) => {
-  console.log(`Server Started at PORT ${PORT}`)
-  InitiateMongoServer()
+app.listen(PORT, () => {
+	console.log(`Server Started at PORT ${PORT}`)
+	InitiateMongoServer()
 })
