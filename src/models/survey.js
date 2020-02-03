@@ -6,8 +6,7 @@ const SurveySchema = mongoose.Schema({
 		required: true
 	},
 	description: {
-		type: String,
-		required: true
+		type: String
 	},
 	questions: [
 		{ type: mongoose.Schema.Types.ObjectId, ref: 'questions' }
