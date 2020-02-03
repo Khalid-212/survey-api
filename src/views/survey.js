@@ -6,6 +6,7 @@ module.exports = function EntryView(survey, arr = []) {
   arr.forEach(i => populate[i] = true)
 
   return ({
+    id: survey._id,
     title: survey.title,
     description: survey.description,
     questions: populate.questions ? survey.questions.map(i => QuestionView(i)) : survey.questions,

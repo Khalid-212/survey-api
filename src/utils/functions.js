@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken')
 let functions = {}
 
 functions.signin = (user) => {
@@ -14,7 +14,7 @@ functions.signin = (user) => {
         if (err) reject(err)
         else resolve(token)
       }
-    );
+    )
   })
 }
 

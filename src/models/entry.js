@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const EntrySchema = mongoose.Schema({
   answers: [
@@ -23,7 +23,7 @@ const EntrySchema = mongoose.Schema({
     type: Date,
     default: Date.now()
   }
-});
+})
 
 // export model user with UserSchema
-module.exports = mongoose.model('entries', EntrySchema);
+module.exports = mongoose.model('entries', EntrySchema)

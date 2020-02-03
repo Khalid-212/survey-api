@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
-const MONGOURI = 'mongodb+srv://admin:admin@devcluster-ceb5z.mongodb.net/surveyapp?retryWrites=true&w=majority';
+const MONGOURI = 'mongodb+srv://admin:admin@devcluster-ceb5z.mongodb.net/surveyapp?retryWrites=true&w=majority'
 
 const InitiateMongoServer = () => {
   mongoose.connect(MONGOURI, {
@@ -12,6 +12,6 @@ const InitiateMongoServer = () => {
     console.log('err connecting to db')
     // console.log(err)
   })
-};
+}
 
-module.exports = InitiateMongoServer;
+module.exports = InitiateMongoServer

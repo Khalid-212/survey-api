@@ -7,6 +7,7 @@ module.exports = function EntryView(entry, arr = []) {
   arr.forEach(i => populate[i] = true)
 
   return ({
+    id: entry._id,
     answer: {
       question: populate.question ? QuestionView(entry.question) : entry.question,
       answer: entry.answer

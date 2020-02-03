@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const QuestionSchema = mongoose.Schema({
   title: {
@@ -12,7 +12,7 @@ const QuestionSchema = mongoose.Schema({
     type: Date,
     default: Date.now()
   }
-});
+})
 
 // export model user with UserSchema
-module.exports = mongoose.model('questions', QuestionSchema);
+module.exports = mongoose.model('questions', QuestionSchema)
