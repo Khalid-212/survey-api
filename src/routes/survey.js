@@ -1,23 +1,28 @@
 const express = require('express')
 const router = express.Router()
-const auth = require('../middleware/auth')
+const { auth, authAdmin, setRequestUser } = require('../middleware/auth')
 
 const Survey = require('../models/survey')
 const Question = require('../models/question')
 const Entry = require('../models/entry')
+const User = require('../models/user')
 
 const SurveyView = require('../views/survey')
 const EntryView = require('../views/entry')
 
-router.get('/', async (req, res) => {
+router.get('/', setRequestUser, async (req, res) => {
 	const populate = ['createdBy']
 	try {
-		const surveys = await Survey.find({}).populate(populate)
-
+    const user = await User.findById(req.user.id)
+		let surveys = await Survey.find({}).populate(populate)
+    surveys = surveys.filter(i => {
+      return user.role === 'COORDINATOR' || i.status === 'ACTIVE'
+    })
 		res.status(200).json(
 			surveys.map(i => SurveyView(i, populate))
 		)
 	} catch (err) {
+    // console.log(err)
 		res.status(500).send(err.message)
 	}
 })
@@ -35,7 +40,7 @@ router.get('/:id', async (req, res) => {
 	}
 })
 
-router.get('/:id/entries', auth, async (req, res) => {
+router.get('/:id/entries', authAdmin, async (req, res) => {
 	try {
 		const entries = await Entry.find({ survey: req.params.id })
 
@@ -48,7 +53,7 @@ router.get('/:id/entries', auth, async (req, res) => {
 	}
 })
 
-router.post('/', auth, async (req, res) => {
+router.post('/', authAdmin, async (req, res) => {
 	const { title, questions, description } = req.body
 	try {
 		let questionsRef = await Question.insertMany(questions)

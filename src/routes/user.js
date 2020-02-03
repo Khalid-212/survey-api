@@ -2,7 +2,7 @@ const express = require('express')
 const { check, validationResult } = require('express-validator/check')
 const bcrypt = require('bcryptjs')
 const router = express.Router()
-const auth = require('../middleware/auth')
+const { auth } = require('../middleware/auth')
 const { signin } = require('../utils/functions')
 
 const User = require('../models/user')
@@ -12,7 +12,7 @@ router.post('/signup', check('email', 'Please enter a valid email').isEmail(), a
 	const errors = validationResult(req)
 	if (!errors.isEmpty()) {
 		return res.status(400).json({
-			errors: errors.array()
+			message: 'Please enter a valid email'
 		})
 	}
 
