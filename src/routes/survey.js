@@ -70,10 +70,11 @@ router.post('/', auth, async (req, res) => {
 })
 
 router.put('/status/:id', auth, async (req, res) => {
+  const populate = ['questions', 'createdBy']
   try {
     const status = req.body.status.toUpperCase()
 
-    let survey = await Survey.findById(req.params.id).populate(['questions', 'createdBy'])
+    let survey = await Survey.findById(req.params.id).populate(populate)
 
     if (status !== 'IDLE' && status !== 'ACTIVE' && status !== 'CLOSED')
       return res.status(400).json({
@@ -83,7 +84,7 @@ router.put('/status/:id', auth, async (req, res) => {
     await survey.save()
 
     res.status(200).json(
-      SurveyView(survey)
+      SurveyView(survey, populate)
     )
   } catch (err) {
     res.status(500).send(err)
