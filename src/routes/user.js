@@ -17,7 +17,7 @@ router.post('/', check('email').isEmail(), async (req, res) => {
 	}
 
 	const { username, email, password, name } = req.body
-	const role = req.body.role.toUpperCase() || 'RESPONDENT'
+	const role = req.body.role ? req.body.role.toUpperCase() : 'RESPONDENT'
 	try {
 		let user = new User({
 			username,
