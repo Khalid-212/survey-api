@@ -55,7 +55,7 @@ router.get('/:id/entries', authAdmin, async (req, res) => {
 	}
 })
 
-router.get('/:id/result', auth, async (req, res) => {
+router.get('/:id/result', async (req, res) => {
 	const populate = ['questions', 'createdBy']
 	try {
 		const survey = await Survey.findById(req.params.id).populate(populate)
