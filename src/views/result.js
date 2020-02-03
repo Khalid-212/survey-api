@@ -1,7 +1,6 @@
 const UserView = require('./user')
-const QuestionView = require('./question')
 
-module.exports = function SurveyView(survey, arr = []) {
+module.exports = function ResultView(survey, arr = [], result) {
 	let populate = {}
 	arr.forEach(i => populate[i] = true)
 
@@ -9,7 +8,7 @@ module.exports = function SurveyView(survey, arr = []) {
 		id: survey._id,
 		title: survey.title,
 		description: survey.description,
-		questions: populate.questions ? survey.questions.map(i => QuestionView(i)) : survey.questions,
+		questions: result,
 		status: survey.status,
 		createdBy: populate.createdBy ? UserView(survey.createdBy) : survey.createdBy,
 		createdAt: survey.createdAt,
