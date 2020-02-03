@@ -7,7 +7,7 @@ const entry = require('./routes/entry') //new addition
 const InitiateMongoServer = require('./config/db')
 
 const app = express()
-app.user(cors())
+app.use(cors())
 
 // PORT
 const PORT = process.env.PORT || 5000
