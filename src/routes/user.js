@@ -8,7 +8,7 @@ const { signin } = require('../utils/functions')
 const User = require('../models/user')
 const UserView = require('../views/user')
 
-router.post('/signup', check('email', 'Please enter a valid email').isEmail(), async (req, res) => {
+router.post('/', check('email').isEmail(), async (req, res) => {
 	const errors = validationResult(req)
 	if (!errors.isEmpty()) {
 		return res.status(400).json({
@@ -49,9 +49,9 @@ router.post('/signup', check('email', 'Please enter a valid email').isEmail(), a
 )
 
 router.post(
-	'/login',
+	'/auth',
 	[
-		check('email', 'Please enter a valid email').isEmail()
+		check('email').isEmail()
 	],
 	async (req, res) => {
 		const errors = validationResult(req)
