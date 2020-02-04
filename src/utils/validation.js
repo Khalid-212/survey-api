@@ -2,9 +2,9 @@ const jwt = require('jsonwebtoken')
 const Entry = require('../models/entry')
 
 module.exports = {
-  retakingUser: function(user, survey) {
+  retakingUser: async function(user, survey) {
   	try {
-      const entry = Entry.findOne({ user: user, survey: survey })
+      const entry = await Entry.findOne({ user: user, survey: survey })
       return Boolean(entry)
   	} catch {
   		return false

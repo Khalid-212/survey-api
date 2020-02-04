@@ -11,7 +11,7 @@ const EntryView = require('../views/entry')
 router.post('/', setRequestUser, async (req, res) => {
 	const { answers, survey } = req.body
 	try {
-		if (req.user && retakingUser(req.user.id, survey))
+		if (req.user && await retakingUser(req.user.id, survey))
 			return res.status(400).json({
 				message: 'You have already taken this survey'
 			})

@@ -33,7 +33,7 @@ router.get('/', setRequestUser, async (req, res) => {
 router.get('/:id', setRequestUser, async (req, res) => {
 	const populate = ['questions', 'createdBy']
 	try {
-		const taken = Boolean(req.user) && retakingUser(req.user.id, req.params.id)
+		const taken = Boolean(req.user) && await retakingUser(req.user.id, req.params.id)
 		const survey = await Survey.findById(req.params.id).populate(populate)
 
 		res.status(200).json({
