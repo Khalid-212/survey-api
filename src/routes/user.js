@@ -21,7 +21,7 @@ router.post('/', check('email').isEmail(), async (req, res) => {
 	try {
 		let user = new User({
 			username,
-			email,
+			email: email.toLowerCase(),
 			password,
 			role,
 			name
@@ -63,9 +63,10 @@ router.post(
 		}
 
 		const { email, password } = req.body
+
 		try {
 			const user = await User.findOne({
-				email
+				email: email.toLowerCase()
 			})
 			if (!user)
 				return res.status(400).json({
