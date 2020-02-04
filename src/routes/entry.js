@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { authAdmin, setRequestUser } = require('../middleware/auth')
+const { retakingUser } = require('../utils/validation')
 
 const Entry = require('../models/entry')
 const Survey = require('../models/survey')
@@ -10,6 +11,11 @@ const EntryView = require('../views/entry')
 router.post('/', setRequestUser, async (req, res) => {
 	const { answers, survey } = req.body
 	try {
+		if (req.user && retakingUser(req.user.id, survey))
+			return res.status(400).json({
+				message: 'You have already taken this survey'
+			})
+
 		const surveyInstance = await Survey.findById(survey)
 
 		if (surveyInstance.status !== 'ACTIVE')

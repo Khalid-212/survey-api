@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { auth, authAdmin, setRequestUser } = require('../middleware/auth')
+const { retakingUser } = require('../utils/validation')
 
 const Survey = require('../models/survey')
 const Question = require('../models/question')
@@ -29,14 +30,16 @@ router.get('/', setRequestUser, async (req, res) => {
 	}
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', setRequestUser, async (req, res) => {
 	const populate = ['questions', 'createdBy']
 	try {
+		const taken = Boolean(req.user) && retakingUser(req.user.id, req.params.id)
 		const survey = await Survey.findById(req.params.id).populate(populate)
 
-		res.status(200).json(
-			SurveyView(survey, populate)
-		)
+		res.status(200).json({
+			...SurveyView(survey, populate),
+			taken
+		})
 	} catch (err) {
 		res.status(500).send(err.message)
 	}
