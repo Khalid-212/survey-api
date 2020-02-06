@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const MONGOURI = process.env.MONGO_URI
+const MONGOURI = process.env.MONGODB_URI || ""
 
 const InitiateMongoServer = () => {
 	mongoose.connect(MONGOURI, {
