@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 
-// const MONGOURI = 'mongodb+srv://khalidibr212:FnUKbWiUQPJIRnm8@menuapp-shard-0/test?ssl=true'
-const MONGOURI = 'mongodb+srv://khalidibr212:FnUKbWiUQPJIRnm8@menuapp.5gpnyta.mongodb.net/?retryWrites=true&w=majority'
+const MONGOURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/menuapp'
 
 mongoose.set('strictQuery', false)
 
