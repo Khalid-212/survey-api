@@ -10,7 +10,7 @@ const app = express()
 app.use(cors())
 
 // PORT
-const PORT = process.env.PORT || 5000 // eslint-disable-line
+const PORT = process.env.PORT || 1337 // eslint-disable-line
 
 // Middleware
 app.use(bodyParser.json())

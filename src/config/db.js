@@ -1,11 +1,14 @@
 const mongoose = require('mongoose')
 
-const MONGOURI = process.env.MONGODB_URI || ""
+// const MONGOURI = 'mongodb+srv://khalidibr212:FnUKbWiUQPJIRnm8@menuapp-shard-0/test?ssl=true'
+const MONGOURI = 'mongodb+srv://khalidibr212:FnUKbWiUQPJIRnm8@menuapp.5gpnyta.mongodb.net/?retryWrites=true&w=majority'
 
-const InitiateMongoServer = () => {
+mongoose.set('strictQuery', false)
+
+const InitiateMongoServer =  () => {
 	mongoose.connect(MONGOURI, {
 		useNewUrlParser: true,
-		useUnifiedTopology: true
+		useUnifiedTopology: true,
 	}).then(() => {
 		console.log('connected to mongodb!')
 	}).catch(() => {

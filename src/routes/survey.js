@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { auth, authAdmin, setRequestUser } = require('../middleware/auth')
+const {  authAdmin, setRequestUser } = require('../middleware/auth')
 const { retakingUser } = require('../utils/validation')
 
 const Survey = require('../models/survey')
